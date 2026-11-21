@@ -1,20 +1,21 @@
-# Toyota Sienta (2016) Owner's Manual: English Edition
+# Toyota Sienta Owner's Manuals: English Editions
 
-This folder contains:
+This folder contains English translations of two Japanese Toyota Sienta owner's manuals:
 
 | File | What it is |
 |---|---|
-| `sienta_201606.pdf` | The original Japanese owner's manual (June 2016 edition, 436 pages). |
-| `Toyota_Sienta_2016_Owners_Manual_EN.pdf` | The English translation (443 pages). |
-| `Sienta_2016_EN_pilot.pdf` | A 10-page trial version made before the full run. You can delete it. |
+| `sienta_201606.pdf` | Original Japanese manual: **Sienta (gasoline)**, June 2016 edition, 436 pages. |
+| `Toyota_Sienta_2016_Owners_Manual_EN.pdf` | English translation of the above (443 pages). |
+| `sienta_hybrid_201708.pdf` | Original Japanese manual: **Sienta Hybrid**, August 2017 edition, 432 pages. It covers models built from **August 2017 to August 2018**, so it is also the manual for 2018 models. |
+| `Toyota_Sienta_Hybrid_2017-2018_Owners_Manual_EN.pdf` | English translation of the above (440 pages). |
 
-The English edition is an **unofficial translation**. It was made by Claude (Anthropic's AI assistant) in November 2026 for Frost. Toyota did not produce or check it. For anything safety-critical, ask a Toyota dealer to confirm.
+Both English editions are **unofficial translations**. They were made by Claude (Anthropic's AI assistant) in November 2026 for Frost. Toyota did not produce or check them. For anything safety-critical, ask a Toyota dealer to confirm.
 
 ---
 
 ## Goal
 
-The manual is a technical document, so its diagrams had to stay **exactly as in the original**. The method was to swap out the text and leave everything else untouched, instead of retyping or rebuilding the pages:
+The manuals are technical documents, so their diagrams had to stay **exactly as in the original**. The method was to swap out the text and leave everything else untouched, instead of retyping or rebuilding the pages:
 
 - every drawing, icon, photo, table border and coloured box stays in its original position
 - only the Japanese text is removed and replaced with English in the same spot
@@ -22,24 +23,29 @@ The manual is a technical document, so its diagrams had to stay **exactly as in 
 
 ## How it was done
 
-### 1. Inspection (Phase 0)
-- The original PDF has real, selectable text, so no OCR was needed. It holds about 207,000 Japanese characters in roughly 7,700 text blocks.
-- The diagrams are almost all vector drawings. Their labels are mostly numbered callouts (①, ②, …), which needed no translation.
-- The PDF contains 111 embedded images. Seven of them (dashboard screen images) had Japanese text baked into the picture.
-- The sideways chapter names on the page-edge tabs were set in a vertical Japanese font.
+The same method was used for both manuals. The 2016 manual was translated first. The Hybrid manual then reused its work.
 
-### 2. Pilot
-- Ten representative pages were translated first: the cover, search guide, pictorial index, SRS airbags, child-seat table, warning lights, trip meter, a WARNING box, a maintenance note and the brake specifications.
-- Frost approved the look and wording before the full run.
+### 1. Inspection
+- Both PDFs have real, selectable text, so no OCR was needed. Diagrams are almost all vector drawings, and their labels are mostly numbered callouts (①, ②, …).
+- 2016 manual: about 207,000 Japanese characters. Seven dashboard screen images had Japanese baked into the picture.
+- Hybrid manual: about 4,900 unique text blocks, of which about 74% were word-for-word identical to the 2016 manual. That left about 50,000 characters of new text, mostly hybrid-specific. 17 screen images had Japanese baked in.
+- The sideways chapter names on the page-edge tabs are set in a vertical Japanese font in both manuals.
+
+### 2. Pilot (2016 manual only)
+- Ten representative pages were translated first. Frost approved the look and wording before the full run.
+- The Hybrid manual went straight to a full build, because the method was already proven.
 
 ### 3. Text extraction
 - Each page's text was read with its exact position, font size, colour and weight, using PyMuPDF (`extract.py`).
 - Lines were grouped back into paragraphs so each sentence could be translated as a whole. Table cells, short labels and dotted-leader lines (e.g. `Hood ........ P. 285`) were kept as separate units.
 
 ### 4. Translation
-- All 5,000+ unique text blocks were translated into English in batches, keeping the reading order of the pages.
-- A consistent glossary based on Toyota's standard English terms was used throughout, for example *Malfunction indicator lamp*, *Pre-Collision System (PCS)*, *Lane Departure Alert (LDA)*, *jam protection function*, *engine switch / IGNITION ON mode*, *Toyota dealer*, and WARNING / NOTICE / Information boxes.
-- Numbers, units, torque values, capacities, tyre pressures and part numbers were copied exactly.
+- Text was translated into English in batches, keeping the reading order of the pages.
+- For the Hybrid manual, every block identical to the 2016 manual reused its 2016 translation, so the shared sections read the same in both books. Only new text was translated.
+- One glossary based on Toyota's standard English terms was used for both books. Examples:
+  - *Malfunction indicator lamp*, *Pre-Collision System (PCS)*, *Lane Departure Alert (LDA)*, *engine switch*, *Toyota dealer*
+  - Hybrid terms: *power switch* (ACCESSORY / ON mode), *READY indicator*, *hybrid system*, *hybrid battery*, *12-volt battery*, *EV drive mode*, *eco drive mode*, *energy monitor*, *Hybrid System Indicator*, *regenerative braking*, *Vehicle Proximity Notification System*, *Electronically Controlled Brake (ECB)*, *accessory power outlet (100 V AC)*
+- Numbers, units, torque values, capacities, tyre pressures, voltages and part numbers were copied exactly.
 - Symbols were kept: ★ means "availability depends on grade and options", and ※ marks a footnote.
 
 ### 5. Rebuilding the pages
@@ -49,25 +55,29 @@ The manual is a technical document, so its diagrams had to stay **exactly as in 
   - The text box can grow into empty space to the right or below. It never grows over other text, lines or images.
   - Text shrinks to fit if needed, down to a 6 pt minimum. A few very tight spots go down to 5 pt.
   - Table cells stay centred, bullet indents are kept, and the side tabs are written rotated.
-- **Images with Japanese text:** the 7 screen images were covered with small patches in the screen's own background colour, with English labels on top. These were the eco score, date/birthday settings, trip summary, ACCESSORY / IGNITION ON, "BRAKE!" and the lead-vehicle alert.
+- **Cover and screen images:** Japanese drawn as outlines (the cover title) or baked into screen images was covered with small patches in the background colour, with English labels on top. In the Hybrid manual, the patched screens are the eco score, eco wallet, gasoline price and reference fuel economy settings, settings menus, date/birthday screens, trip summary, ACCESSORY / IGNITION ON, "BRAKE!" and the lead-vehicle alert.
 
 ### 6. Index
-- The original index is sorted in Japanese kana order. It was translated in place and kept as **"Index (Japanese order)"**.
-- A new **A–Z English index** (7 pages, 625 entries) was built from it and inserted just before it (`build_index.py`). This is why the PDF has 443 pages instead of 436. The page numbers printed on the original pages are unchanged.
+- Each original index is sorted in Japanese kana order. It was translated in place and kept as **"Index (Japanese order)"**.
+- A new **A–Z English index** was built from it and inserted just before it (`build_index.py`):
+  - 2016 manual: 7 pages, 625 entries
+  - Hybrid manual: 8 pages, 643 entries
+- This is why the English PDFs have more pages than the originals. The page numbers printed on the original pages are unchanged.
 
-### 7. Quality checks
-- **No Japanese left:** an automatic scan confirmed that no Japanese characters remain anywhere in the file.
-- **No overlapping text:** an automatic check found no lines of text overlapping each other on any page (`qa_overlap.py`).
-- **Numbers:** every number in each Japanese block was compared with its English translation. The only differences were numbers written as words, such as "twice" or "all four wheels".
-- **Visual review:** about 40 pages across all chapters were checked by eye, including the warning-light tables, child-seat tables, specifications and the index.
-- **File size:** the final file was compressed (duplicate fonts removed), bringing it down to 14.7 MB.
+### 7. Quality checks (both manuals)
+- **No Japanese left:** an automatic scan confirmed that no Japanese characters remain in the text of either file.
+- **No overlapping text:** an automatic check found no lines of text overlapping each other on any page (`qa_overlap.py`). The few overlaps found were fixed, for example by shortening table headers and merging sentences that were split across a table row.
+- **Numbers:** every number in each Japanese block was compared with its English translation. The only differences were numbers written as words (such as "twice") or numbers that sit in a neighbouring block.
+- **Visual review:** sample pages across all chapters were checked by eye. For the Hybrid manual, this included a second read of the new safety-critical sections: high voltage and the hybrid battery, accidents and towing, EV drive mode, the 12-volt battery and jump-starting, overheating, warning lights and warning messages, and the 100 V accessory power outlet.
+- **File size:** the final files were compressed (duplicate fonts removed), bringing them to about 15 MB each.
 
 ## Known limitations
 
-- Crowded areas such as diagram callouts and table cells use small text, down to 6 pt. The customization tables on pages 402–403 are the tightest.
+- Crowded areas such as diagram callouts and table cells use small text, down to 6 pt. The customization tables near the end of each book are the tightest.
 - In the table of contents, entries that were already in English kept the original font, so text sizes are mixed there.
-- Some content applies only to Japan, for example references to Japanese law and the radio certification of the keys ("use only in Japan"). It is translated as written.
-- Not every page was checked by eye. If you spot a problem, note the page number and it can be fixed and the file rebuilt.
+- The small pictures of the actual Japanese caution labels on the vehicle (Hybrid manual, page 71) were left as they are, because they show what the real label looks like.
+- Some content applies only to Japan, for example references to Japanese law, the radio certification of the keys ("use only in Japan"), the 100 V / 50 Hz power outlet and local idling rules. It is translated as written.
+- Not every page was checked by eye. If you spot a problem, note the file and page number and it can be fixed and the file rebuilt.
 
 ## Tools used
 
